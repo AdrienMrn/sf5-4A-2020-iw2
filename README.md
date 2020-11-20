@@ -21,6 +21,7 @@ $ find . -name "*.sh" | xargs dos2unix
 docker-compose exec php bin/console make:controller
 docker-compose exec php bin/console make:entity
 docker-compose exec php bin/console make:form
+docker-compose exec php bin/console make:crud
 ```
 #####Mise à jour de votre BDD
 ```
