@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Livre "{{ book.name|capitalize }}"{% endblock %}
+{% block title %}Création d'un livre{% endblock %}
 
 {% block body %}
-    <h1>Livre "{{ book.name|capitalize }}"</h1>
+    <h1>Création d'un livre</h1>
 
-    Titre : {{ book.name|capitalize }} <br>
-    Description : {{ book.description ? book.description|slice(0, 30) : 'NC' }} <br>
-    Prix moyen : {{ book.averagePrice ? book.averagePrice : 'NC' }} <br>
-    Date de publication : {{ book.publicationDate ? book.publicationDate|date('d/m/Y') : 'NC' }} <br>
+    {{ form_start(form) }}
+        {{ form_rest(form) }}
+        <button type="submit" class="btn">Créer</button>
+    {{ form_end(form) }}
 {% endblock %}

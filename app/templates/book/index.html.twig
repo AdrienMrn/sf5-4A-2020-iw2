@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des livres{% endblock %}
+
+{% block body %}
+    <h1>Liste des livres</h1>
+    <a href="{{ path('book_new') }}" class="btn">Créer un livre</a> <br><br>
+
+    {% for book in books %}
+        Titre : {{ book.name|capitalize }} <br>
+        Description : {{ book.description ? book.description|slice(0, 30) : 'NC' }} <br>
+        Prix moyen : {{ book.averagePrice ? book.averagePrice : 'NC' }} <br>
+        Date de publication : {{ book.publicationDate ? book.publicationDate|date('d/m/Y') : 'NC' }} <br>
+        <a href="{{ path('book_show', {'id': book.id}) }}" class="btn">Voir</a>
+        <a href="{{ path('book_edit', {'id': book.id}) }}" class="btn">Editer</a>
+        <a href="{{ path('book_delete', {'id': book.id, 'token': csrf_token('delete_book' ~ book.id)}) }}" class="btn red">Supprimer</a>
+        <br><br>
+    {% endfor %}
+{% endblock %}
