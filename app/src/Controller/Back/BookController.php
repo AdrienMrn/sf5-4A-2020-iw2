@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back;
 
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,7 @@ class BookController extends AbstractController
      */
     public function index(BookRepository $bookRepository)
     {
-        return $this->render('book/index.html.twig', [
+        return $this->render('back/book/index.html.twig', [
             'books' => $bookRepository->findBy([], ['id' => 'ASC'])
         ]);
     }
@@ -33,7 +34,7 @@ class BookController extends AbstractController
      */
     public function show(Book $book)
     {
-        return $this->render('book/show.html.twig', [
+        return $this->render('back/book/show.html.twig', [
             'book' => $book
         ]);
     }
@@ -52,10 +53,10 @@ class BookController extends AbstractController
             $em->persist($book);
             $em->flush();
 
-            return $this->redirectToRoute('book_show', ['id' => $book->getId()]);
+            return $this->redirectToRoute('back_book_show', ['id' => $book->getId()]);
         }
 
-        return $this->render('book/new.html.twig', [
+        return $this->render('back/book/new.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -71,10 +72,10 @@ class BookController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('book_show', ['id' => $book->getId()]);
+            return $this->redirectToRoute('back_book_show', ['id' => $book->getId()]);
         }
 
-        return $this->render('book/edit.html.twig', [
+        return $this->render('back/book/edit.html.twig', [
             'book' => $book,
             'form' => $form->createView()
         ]);
@@ -93,6 +94,6 @@ class BookController extends AbstractController
         $em->remove($book);
         $em->flush();
 
-        return $this->redirectToRoute('book_index');
+        return $this->redirectToRoute('back_book_index');
     }
 }
