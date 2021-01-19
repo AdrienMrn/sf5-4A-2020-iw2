@@ -53,6 +53,8 @@ class BookController extends AbstractController
             $em->persist($book);
             $em->flush();
 
+            $this->addFlash('red', 'Livre créé.');
+
             return $this->redirectToRoute('back_book_show', ['id' => $book->getId()]);
         }
 
@@ -71,6 +73,8 @@ class BookController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('red', 'Livre modifié.');
 
             return $this->redirectToRoute('back_book_show', ['id' => $book->getId()]);
         }
@@ -93,6 +97,8 @@ class BookController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->remove($book);
         $em->flush();
+
+        $this->addFlash('red', 'Livre supprimé.');
 
         return $this->redirectToRoute('back_book_index');
     }
