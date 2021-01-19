@@ -16,6 +16,8 @@ class UserFixtures extends Fixture
         $faker = \Faker\Factory::create();
 
         $object = (new User())
+            ->setLastname('dev')
+            ->setFirstname('technique')
             ->setEmail('dev@technique')
             ->setRoles(['ROLE_ADMIN'])
             ->setPassword(self::PWD)
@@ -24,6 +26,8 @@ class UserFixtures extends Fixture
 
         for ($i=0; $i<20; $i++) {
             $object = (new User())
+                ->setLastname($faker->lastName)
+                ->setFirstname($faker->firstName)
                 ->setEmail($faker->email)
                 ->setRoles([])
                 ->setPassword(self::PWD)
