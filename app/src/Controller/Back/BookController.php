@@ -5,7 +5,6 @@ namespace App\Controller\Back;
 use App\Entity\Book;
 use App\Form\BookType;
 use App\Repository\BookRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,18 +24,30 @@ class BookController extends AbstractController
     public function index(BookRepository $bookRepository)
     {
         return $this->render('back/book/index.html.twig', [
-            'books' => $bookRepository->findBy([], ['id' => 'ASC'])
+            'books' => $bookRepository->findBy([], ['position' => 'ASC'])
         ]);
     }
 
     /**
-     * @Route("/show/{id}", name="show", methods={"GET"})
+     * @Route("/show/{slug}", name="show", methods={"GET"})
      */
     public function show(Book $book)
     {
         return $this->render('back/book/show.html.twig', [
             'book' => $book
         ]);
+    }
+
+    /**
+     * @Route("/sortable/{slug}/{sortable}", name="sortable", methods={"GET"}, requirements={"sortable": "up|down"})
+     */
+    public function sortable(Book $book, $sortable)
+    {
+        $book->setPosition($sortable === 'up' ? $book->getPosition()+1 : $book->getPosition()-1);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('back_book_index');
+
     }
 
     /**
@@ -55,7 +66,7 @@ class BookController extends AbstractController
 
             $this->addFlash('red', 'Livre créé.');
 
-            return $this->redirectToRoute('back_book_show', ['id' => $book->getId()]);
+            return $this->redirectToRoute('back_book_show', ['slug' => $book->getSlug()]);
         }
 
         return $this->render('back/book/new.html.twig', [
@@ -76,7 +87,7 @@ class BookController extends AbstractController
 
             $this->addFlash('red', 'Livre modifié.');
 
-            return $this->redirectToRoute('back_book_show', ['id' => $book->getId()]);
+            return $this->redirectToRoute('back_book_show', ['slug' => $book->getSlug()]);
         }
 
         return $this->render('back/book/edit.html.twig', [

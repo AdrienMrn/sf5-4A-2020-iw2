@@ -33,10 +33,11 @@ Encore
     //.autoProvidejQuery()
 ;
 
-    if (!Encore.isProduction()) {
         const LiveReloadPlugin = require('webpack-livereload-plugin');
-        var config = Encore.getWebpackConfig();
-        config.plugins.unshift(new LiveReloadPlugin());
-    }
+        module.exports = {
+            plugins: [
+                new LiveReloadPlugin()
+            ]
+        }
 
 module.exports = Encore.getWebpackConfig();

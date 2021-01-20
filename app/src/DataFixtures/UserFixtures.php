@@ -5,11 +5,19 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
 {
-    /** @var string PWD = test (pwd encoded) */
-    private const PWD = '$argon2id$v=19$m=65536,t=4,p=1$FanJoh0SlQgQ4GpcAM/Ugw$oAVpZY+8BikxS0Cqpf4mmItDGDCAv+wa8HiEN2nWhm4';
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
 
     public function load(ObjectManager $manager)
     {
@@ -20,7 +28,7 @@ class UserFixtures extends Fixture
             ->setFirstname('technique')
             ->setEmail('dev@technique')
             ->setRoles(['ROLE_ADMIN'])
-            ->setPassword(self::PWD)
+            ->setPassword('test')
         ;
         $manager->persist($object);
 
@@ -30,7 +38,7 @@ class UserFixtures extends Fixture
                 ->setFirstname($faker->firstName)
                 ->setEmail($faker->email)
                 ->setRoles([])
-                ->setPassword(self::PWD)
+                ->setPassword('test')
             ;
             $manager->persist($object);
         }

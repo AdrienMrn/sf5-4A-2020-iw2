@@ -11,7 +11,9 @@
         Description : {{ book.description ? book.description|slice(0, 30) : 'NC' }} <br>
         Prix moyen : {{ book.averagePrice ? book.averagePrice : 'NC' }} <br>
         Date de publication : {{ book.publicationDate ? book.publicationDate|date('d/m/Y') : 'NC' }} <br>
-        <a href="{{ path('back_book_show', {'id': book.id}) }}" class="btn">Voir</a>
+        <a href="{{ path('back_book_sortable', {'slug': book.slug, 'sortable': 'up'}) }}" class="btn">Up</a>
+        <a href="{{ path('back_book_sortable', {'slug': book.slug, 'sortable': 'down'}) }}" class="btn">Down</a>
+        <a href="{{ path('back_book_show', {'slug': book.slug}) }}" class="btn">Voir</a>
         <a href="{{ path('back_book_edit', {'id': book.id}) }}" class="btn">Editer</a>
         <a href="{{ path('back_book_delete', {'id': book.id, 'token': csrf_token('delete_book' ~ book.id)}) }}" class="btn red">Supprimer</a>
         <br><br>

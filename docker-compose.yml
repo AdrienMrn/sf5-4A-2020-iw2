@@ -45,6 +45,8 @@ services:
       - php
     volumes:
       - ./app:/home/node/app
+    ports:
+      - '35729:35729'
 
   nginx:
     image: ${NGINX_IMAGE:-iw/nginx}
