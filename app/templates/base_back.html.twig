@@ -13,9 +13,9 @@
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo">Logo</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="{{ path('back_book_index') }}">Livres</a></li>
-                    <li><a href="{{ path('back_tag_index') }}">Tags</a></li>
-                    <li><a href="{{ path('front_default_index') }}">Retour to front</a></li>
+                    <li><a href="{{ path('back_book_index') }}">{{ 'books'|trans|capitalize }}</a></li>
+                    <li><a href="{{ path('back_tag_index') }}">{{ 'tags'|trans|capitalize }}</a></li>
+                    <li><a href="{{ path('front_default_index') }}">{{ 'return to front'|trans|capitalize }}</a></li>
                     {% if app.user %}
                         <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
                     {% endif %}

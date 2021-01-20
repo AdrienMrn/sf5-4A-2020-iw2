@@ -23,6 +23,8 @@ class BookController extends AbstractController
      */
     public function index(BookRepository $bookRepository)
     {
+        $this->get('session')->set('_locale', 'fr');
+
         return $this->render('back/book/index.html.twig', [
             'books' => $bookRepository->findBy([], ['position' => 'ASC'])
         ]);
