@@ -81,6 +81,8 @@ class BookController extends AbstractController
      */
     public function edit(Book $book, Request $request)
     {
+        $this->denyAccessUnlessGranted('edit', $book);
+
         $form = $this->createForm(BookType::class, $book);
 
         $form->handleRequest($request);
@@ -103,6 +105,8 @@ class BookController extends AbstractController
      */
     public function delete(Book $book, $token)
     {
+        $this->denyAccessUnlessGranted('delete', $book);
+
         if (!$this->isCsrfTokenValid('delete_book' . $book->getId(), $token)) {
             throw new Exception('Invalid token CSRF');
         }
