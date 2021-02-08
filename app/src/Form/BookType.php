@@ -8,6 +8,7 @@ use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -36,11 +37,6 @@ class BookType extends AbstractType
                 'choice_label' => 'email',
                 'label' => 'Auteur de cet ouvrage'
             ])
-            ->add('tags', EntityType::class, [
-                'class' => Tag::class,
-                'choice_label' => 'name',
-                'multiple' => true
-            ])
             ->add('test', ChoiceType::class, [
                 'mapped' => false,
                 'choices' => [
@@ -59,6 +55,11 @@ class BookType extends AbstractType
                 'allow_delete' => true,
                 'download_uri' => true,
                 'image_uri' => true
+            ])
+            ->add('tags', CollectionType::class, [
+                'entry_type' => TagType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
             ])
         ;
     }

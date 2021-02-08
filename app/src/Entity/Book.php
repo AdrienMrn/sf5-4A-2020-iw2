@@ -74,7 +74,7 @@ class Book
     private $updatedName;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="books")
+     * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="books", cascade="persist")
      * @ORM\JoinTable(schema="iw")
      */
     private $tags;
