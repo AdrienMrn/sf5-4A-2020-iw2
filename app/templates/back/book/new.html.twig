@@ -6,12 +6,13 @@
     <h1>Création d'un livre</h1>
 
     {{ form_start(form) }}
-    <p>
-        <label>
-            {{ form_widget(form.publicationDate) }}
-            <span>Publier ce livre ? </span>
-        </label>
-    </p>
+
+    <div class="row">
+        <div class="col">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+        </div>
+    </div>
 
     <ul class="tags" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}"></ul>
     <button type="button" class="add_item_link" data-collection-holder-class="tags">Add a tag</button>
@@ -19,6 +20,10 @@
     {{ form_rest(form) }}
     <button type="submit" class="btn">Créer</button>
     {{ form_end(form) }}
+
+
+
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script>
