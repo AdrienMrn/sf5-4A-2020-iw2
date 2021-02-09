@@ -6,6 +6,13 @@
     <h1>Création d'un livre</h1>
 
     {{ form_start(form) }}
+    <p>
+        <label>
+            {{ form_widget(form.publicationDate) }}
+            <span>Publier ce livre ? </span>
+        </label>
+    </p>
+
     <ul class="tags" data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}"></ul>
     <button type="button" class="add_item_link" data-collection-holder-class="tags">Add a tag</button>
 

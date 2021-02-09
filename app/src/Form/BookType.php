@@ -7,6 +7,8 @@ use App\Entity\Tag;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -21,10 +23,13 @@ class BookType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name', TextType::class, [
+        if ($options['new']) {
+            $builder ->add('name', TextType::class, [
                 'label' => 'Nom'
-            ])
+            ]);
+        }
+
+        $builder
             ->add('description', TextareaType::class, [
                 'label' => 'Description'
             ])
@@ -46,9 +51,9 @@ class BookType extends AbstractType
                 'multiple' => true,
                 'required' => false
             ])
-            ->add('publicationDate', DateTimeType::class, [
-                'time_widget' => 'single_text',
-                'date_widget' => 'single_text'
+            ->add('publicationDate', CheckboxType::class, [
+                'label' => 'Publier ce livre ?',
+                'required' => false
             ])
             ->add('imageFile', VichImageType::class, [
                 'required' => false,
@@ -62,12 +67,26 @@ class BookType extends AbstractType
                 'allow_add' => true,
             ])
         ;
+
+        $builder->get('publicationDate')
+            ->addModelTransformer(new CallbackTransformer(
+                function ($publicationDateToBoolean) {
+                    // To boolean (Form)
+                    return $publicationDateToBoolean ? true : false;
+                },
+                function ($publicationDateToDatetime) {
+                    // To datetime (Entity)
+                    return $publicationDateToDatetime ? new \DateTime() : null;
+                }
+            ))
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Book::class,
+            'new' => false
         ]);
     }
 }
